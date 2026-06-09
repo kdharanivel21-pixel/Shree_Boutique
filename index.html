@@ -585,7 +585,7 @@ comfort and elegance.
 <p><strong>Mobile:</strong> +91 9789646209</p>
 <p><strong>WhatsApp:</strong> +91 9789646209</p>
 <br>
-<a href="https://wa.me/9789646209" target="_blank" class="whatsapp">WhatsApp Us</a>
+<a href="https://wa.me/919789646209" target="_blank" class="whatsapp">WhatsApp Us</a>
 <a href="https://instagram.com/sree_boutique123" target="_blank" class="instagram">Instagram</a>
 </div>
 </section>
@@ -784,8 +784,8 @@ checkoutForm.addEventListener('submit', (e) => {
 
   phoneError.style.display = 'none';
 
-  // REMINDER: Switch "9789646209" to your exact active target number line line
-  const businessNumber = "91 9789646209"; 
+  // Your verified business number configuration
+  const businessNumber = "919789646209"; 
 
   let itemsString = "";
   let overallTotal = 0;
@@ -793,10 +793,9 @@ checkoutForm.addEventListener('submit', (e) => {
   Object.values(cart).forEach((item, index) => {
     const cost = item.price * item.qty;
     overallTotal += cost;
-    itemsString += `${index + 1}️⃣ *${item.name}*\n     🔹 Qnty: ${item.qty} \n     🔹 Price: ₹${cost}\n\n`;
+    itemsString += `${index + 1}️⃣ *${item.name}*\n      🔹 Qnty: ${item.qty} \n      🔹 Price: ₹${cost}\n\n`;
   });
 
-  // Updated message script containing policy terms with clear emoji structures
   const message = `✨ *NEW ORDER - SHREE BOUTIQUE* ✨%0A%0A` +
     `👤 *Customer Name:* ${encodeURIComponent(name)}%0A` +
     `📞 *Mobile Number:* ${encodeURIComponent(phone)}%0A` +
