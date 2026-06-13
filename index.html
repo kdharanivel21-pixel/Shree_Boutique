@@ -650,52 +650,46 @@ comfort and elegance.
 </div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDGXzFFfTcayU2L4aTC3XEfUEvl3RpaUe8",
+  authDomain: "shree-boutique-46f0a.firebaseapp.com",
+  projectId: "shree-boutique-46f0a",
+  storageBucket: "shree-boutique-46f0a.firebasestorage.app",
+  messagingSenderId: "693336656915",
+  appId: "1:693336656915:web:1e76956c03661687e443e6",
+  databaseURL: "https://shree-boutique-46f0a-default-rtdb.firebaseio.com"
+};
+
+// Initialize Firebase and Database instances
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Global checkout cart state object
 let cart = {};
 
-document.querySelectorAll('.card').forEach(card => {
-  const productId = card.getAttribute('data-id');
-  const name = card.querySelector('h3').textContent.trim();
-  const price = parseInt(card.querySelector('.price-tag').textContent.replace(/[^\d]/g, ''), 10);
-  
+// Sync and render functions for UI stability
+function updateCardUI(productId) {
+  const card = document.querySelector(`.card[data-id="${productId}"]`);
+  if (!card) return;
+
   const addBtn = card.querySelector('.add-to-cart-btn');
   const qtyControl = card.querySelector('.quantity-control');
   const qtyVal = card.querySelector('.qty-val');
-  const plusBtn = card.querySelector('.plus');
-  const minusBtn = card.querySelector('.minus');
 
-  const updateCartState = () => {
-    if (cart[productId] && cart[productId].qty > 0) {
-      addBtn.style.display = 'none';
-      qtyControl.style.display = 'flex';
-      qtyVal.textContent = cart[productId].qty;
-    } else {
-      addBtn.style.display = 'block';
-      qtyControl.style.display = 'none';
-      delete cart[productId];
-    }
-    renderCartBar();
-  };
-
-  addBtn.addEventListener('click', () => {
-    cart[productId] = { name, price, qty: 1 };
-    updateCartState();
-  });
-
-  plusBtn.addEventListener('click', () => {
-    if(cart[productId]) {
-      cart[productId].qty++;
-      updateCartState();
-    }
-  });
-
-  minusBtn.addEventListener('click', () => {
-    if(cart[productId]) {
-      cart[productId].qty--;
-      updateCartState();
-    }
-  });
-});
+  if (cart[productId] && cart[productId].qty > 0) {
+    addBtn.style.display = 'none';
+    qtyControl.style.display = 'flex';
+    qtyVal.textContent = cart[productId].qty;
+  } else {
+    addBtn.style.display = 'block';
+    qtyControl.style.display = 'none';
+  }
+}
 
 function renderCartBar() {
   const cartBar = document.getElementById('cartBar');
@@ -719,6 +713,43 @@ function renderCartBar() {
   }
 }
 
+// Attach Event Listeners to all product cards properly
+document.querySelectorAll('.card').forEach(card => {
+  const productId = card.getAttribute('data-id');
+  const name = card.querySelector('h3').textContent.trim();
+  const price = parseInt(card.querySelector('.price-tag').textContent.replace(/[^\d]/g, ''), 10);
+  
+  const addBtn = card.querySelector('.add-to-cart-btn');
+  const plusBtn = card.querySelector('.plus');
+  const minusBtn = card.querySelector('.minus');
+
+  addBtn.addEventListener('click', () => {
+    cart[productId] = { name, price, qty: 1 };
+    updateCardUI(productId);
+    renderCartBar();
+  });
+
+  plusBtn.addEventListener('click', () => {
+    if (cart[productId]) {
+      cart[productId].qty++;
+      updateCardUI(productId);
+      renderCartBar();
+    }
+  });
+
+  minusBtn.addEventListener('click', () => {
+    if (cart[productId]) {
+      cart[productId].qty--;
+      if (cart[productId].qty <= 0) {
+        delete cart[productId];
+      }
+      updateCardUI(productId);
+      renderCartBar();
+    }
+  });
+});
+
+// Modal and Form Handlers
 const modal = document.getElementById('checkoutModal');
 const closeModalBtn = document.getElementById('closeModal');
 const openCheckoutBtn = document.getElementById('openCheckoutBtn');
@@ -784,18 +815,45 @@ checkoutForm.addEventListener('submit', (e) => {
 
   phoneError.style.display = 'none';
 
-  // Your verified business number configuration
   const businessNumber = "919789646209"; 
-
   let itemsString = "";
   let overallTotal = 0;
+  
+  // Format items array structured data safely for database entry
+  const orderItemsData = [];
 
   Object.values(cart).forEach((item, index) => {
     const cost = item.price * item.qty;
     overallTotal += cost;
     itemsString += `${index + 1}️⃣ *${item.name}*\n      🔹 Qnty: ${item.qty} \n      🔹 Price: ₹${cost}\n\n`;
+    
+    orderItemsData.push({
+      productName: item.name,
+      quantity: item.qty,
+      priceEach: item.price,
+      totalCost: cost
+    });
   });
 
+  // Save the structured order into Firebase Realtime Database
+  const ordersRef = ref(db, 'orders');
+  const newOrderRef = push(ordersRef);
+  
+  set(newOrderRef, {
+    customerName: name,
+    mobileNumber: phone,
+    deliveryAddress: address,
+    items: orderItemsData,
+    totalAmount: overallTotal,
+    timestamp: new Date().toISOString(),
+    paymentMode: "Online Payment Only"
+  }).then(() => {
+    console.log("Order saved successfully to Firebase!");
+  }).catch((error) => {
+    console.error("Database Error: ", error);
+  });
+
+  // Construct standard WhatsApp text string output
   const message = `✨ *NEW ORDER - SHREE BOUTIQUE* ✨%0A%0A` +
     `👤 *Customer Name:* ${encodeURIComponent(name)}%0A` +
     `📞 *Mobile Number:* ${encodeURIComponent(phone)}%0A` +
@@ -807,16 +865,19 @@ checkoutForm.addEventListener('submit', (e) => {
     `🛑 No Order Cancellation Allowed%0A` +
     `❌ No Returns / No Exchanges%0A` +
     `🎥 Box Unboxing Video Proof Mandatory for Damage Claims%0A%0A` +
-    `Please share your online payment screenshot to confirm this order! 🙏`
-    '𝗢𝘂𝗿 𝘄𝗲𝗯𝘀𝗶𝘁𝗲 𝗹𝗶𝗻𝗸:https://shree-boutique-rho.vercel.app/`;
+    `Please share your online payment screenshot to confirm this order! 🙏`;
 
+  // Open the message string endpoint onto an automated target screen blank window 
   window.open(`https://wa.me/${businessNumber}?text=${message}`, '_blank');
 
   modal.classList.remove('active');
   checkoutForm.reset();
   cart = {};
-  document.querySelectorAll('.quantity-control').forEach(ctrl => ctrl.style.display = 'none');
-  document.querySelectorAll('.add-to-cart-btn').forEach(btn => btn.style.display = 'block');
+  
+  document.querySelectorAll('.card').forEach(card => {
+    const productId = card.getAttribute('data-id');
+    updateCardUI(productId);
+  });
   renderCartBar();
 });
 </script>
