@@ -390,7 +390,9 @@ padding: 2px 4px;
   nav { display: none; }
   
   .hero { 
+    width: 100%;
     aspect-ratio: 1080 / 1350;
+    min-height: 450px; /* 💡 Adds a fallback base height for mobile viewports */
     
     /*--- MOBILE ---*/
     background: url('Shree Boutique mobile.png') center/contain no-repeat; 
