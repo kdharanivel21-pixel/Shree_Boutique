@@ -7,9 +7,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
-
 <style>
 *{
 margin:0;
@@ -565,19 +562,6 @@ Welcome to Shree Boutique. We specialize in modern sarees, stylish chudithars, p
 </div>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDGXzFFfTcayU2L4aTC3XEfUEvl3RpaUe8",
-  authDomain: "shree-boutique-46f0a.firebaseapp.com",
-  projectId: "shree-boutique-46f0a",
-  storageBucket: "shree-boutique-46f0a.firebasestorage.app",
-  messagingSenderId: "693336656915",
-  appId: "1:693336656915:web:1e76956c03661687e443e6",
-  databaseURL: "https://shree-boutique-46f0a-default-rtdb.firebaseio.com"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
 const productsData = [
   {
     id: "p1",
@@ -758,9 +742,9 @@ getLiveLocationBtn.addEventListener('click', () => {
   getLiveLocationBtn.textContent = "⏳ Pinpointing GPS Hardware...";
 
   const geoOptions = {
-    enableHighAccuracy: true, // Forces precise hardware GPS antenna tracking on mobile
-    timeout: 12000,           // Give mobile up to 12 seconds to hook cell tower data
-    maximumAge: 0             // STRICT: Disallow browser location cache data entirely
+    enableHighAccuracy: true, 
+    timeout: 12000,           
+    maximumAge: 0             
   };
 
   navigator.geolocation.getCurrentPosition(
@@ -770,14 +754,12 @@ getLiveLocationBtn.addEventListener('click', () => {
       const accuracy = position.coords.accuracy;
 
       try {
-        // Fetch structural map data with structured zoom rules
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`);
         const data = await response.json();
         
         if (data && data.display_name) {
           addressInput.value = data.display_name;
           
-          // Auto-inject localized postcodes
           if(data.address && data.address.postcode) {
              const cleanPostCode = data.address.postcode.replace(/\s/g, '');
              if(cleanPostCode.length === 6 && /^\d+$/.test(cleanPostCode)) {
@@ -880,19 +862,11 @@ checkoutForm.addEventListener('submit', (e) => {
   const businessNumber = "919789646209"; 
   let itemsString = "";
   let overallTotal = 0;
-  const orderItemsData = [];
 
   Object.values(cart).forEach((item, index) => {
     const cost = item.price * item.qty;
     overallTotal += cost;
     itemsString += `${index + 1}️⃣ *${item.name}*\n     🛍️ Quantity: ${item.qty} \n     💸 Price: ₹${cost}\n\n`;
-    
-    orderItemsData.push({
-      productName: item.name,
-      quantity: item.qty,
-      priceEach: item.price,
-      totalCost: cost
-    });
   });
 
   const rawMessage = `🛍️ *SHREE BOUTIQUE - NEW ORDER* 🛍️\n\n` +
@@ -903,41 +877,23 @@ checkoutForm.addEventListener('submit', (e) => {
     `📦 *ITEMS ORDERED:*\n${itemsString}` +
     `💳 *Payment:* Online Payment Only ✅\n` +
     `💰 *Total Amount:* *₹${overallTotal}*\n\n` +
-    `🔗 *Website Link:* shree-boutique-rho.vercel.app\n\n` +
     `📢 *Store Rules Accepted:*\n` +
     `🛑 No Order Cancellation\n` +
     `❌ No Returns / No Exchanges\n` +
     `🎥 Video while opening parcel is compulsory for damage claims!`;
 
-  const ordersRef = db.ref('orders');
-  ordersRef.push({
-    customerName: name,
-    mobileNumber: phone,
-    deliveryAddress: address,
-    pincode: pincode,
-    items: orderItemsData,
-    totalAmount: overallTotal,
-    timestamp: new Date().toISOString(),
-    paymentMode: "Online Payment Only",
-    originUrl: "shree-boutique-rho.vercel.app"
-  })
-  .then(() => {
-    window.open(`https://wa.me/${businessNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
+  // Directly pass to WhatsApp message interface
+  window.open(`https://wa.me/${businessNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
 
-    modal.classList.remove('active');
-    checkoutForm.reset();
-    cart = {};
-    
-    document.querySelectorAll('.card').forEach(card => {
-      const productId = card.getAttribute('data-id');
-      updateCardUI(productId);
-    });
-    renderCartBar();
-  })
-  .catch((error) => {
-    console.error("Firebase Storage Failure:", error);
-    alert("Connection error: Unable to save order details.");
+  modal.classList.remove('active');
+  checkoutForm.reset();
+  cart = {};
+  
+  document.querySelectorAll('.card').forEach(card => {
+    const productId = card.getAttribute('data-id');
+    updateCardUI(productId);
   });
+  renderCartBar();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
