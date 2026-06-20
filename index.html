@@ -108,17 +108,24 @@ cursor: pointer;
 touch-action: manipulation;
 }
 
-/* --- Hero Banner Layout (Default: Desktop/PC 1920x600 Ratio) --- */
-.hero{
+/* --- Super Reliable Responsive Banner System --- */
+.hero-container {
 width: 100%;
-aspect-ratio: 1920 / 600;
+display: block;
+background: #f1f3f6;
+line-height: 0; /* Fixes tiny white gaps below images */
+}
 
-/*--- DESKTOP ---*/
-background: url('Shree Boutique Desktop.png') center/contain no-repeat;
+.banner-desktop {
+width: 100%;
+height: auto;
+display: block;
+}
 
-display:flex;
-justify-content:center;
-align-items:center;
+.banner-mobile {
+display: none; /* Hidden on PC */
+width: 100%;
+height: auto;
 }
 
 /* --- Primary & Secondary Buttons with Animations --- */
@@ -384,19 +391,13 @@ padding: 2px 4px;
   .modal-overlay.active .modal-box { transform: translateY(0); opacity: 1; }
 }
 
-/* --- Mobile Breakpoint Rules (1080x1350 Ratio) --- */
+/* --- Toggle Visibility for Mobile Phones --- */
 @media(max-width:768px) {
   header{ padding: 10px 15px; }
   nav { display: none; }
   
-  .hero { 
-    width: 100%;
-    aspect-ratio: 1080 / 1350;
-    min-height: 450px; /* 💡 Adds a fallback base height for mobile viewports */
-    
-    /*--- MOBILE ---*/
-    background: url('Shree Boutique mobile.png') center/contain no-repeat; 
-  }
+  .banner-desktop { display: none; } /* Hides desktop layout on mobile */
+  .banner-mobile { display: block; }   /* Activates vertical layout on mobile */
 }
 </style>
 </head>
@@ -419,7 +420,11 @@ padding: 2px 4px;
 </nav>
 </header>
 
-<section class="hero" id="home"></section>
+<div class="hero-container" id="home">
+  <img src="Shree Boutique Desktop.png" alt="Shree Boutique Desktop Sale Banner" class="banner-desktop">
+  
+  <img src="Shree Boutique mobile.png" alt="Shree Boutique Mobile Sale Banner" class="banner-mobile">
+</div>
 
 <section class="section" id="collection">
 <h2 class="title">Featured Collections</h2>
@@ -867,4 +872,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 </body>
-</html>
+</html>            
