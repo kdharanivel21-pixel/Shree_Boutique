@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shree Boutique</title>
+<title>Shree Boutique | Online Shopping Store</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
@@ -15,69 +15,82 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+font-family:'Roboto', sans-serif;
 scroll-behavior:smooth;
--webkit-tap-highlight-color: transparent; /* Removes blue flash on mobile tap */
+-webkit-tap-highlight-color: transparent;
 }
 
 body{
-background:#fff8fb;
-color:#333;
-padding-bottom: 90px; /* Leave room for fixed cart bar on mobile */
+background:#f1f3f6;
+color:#212121;
+padding-bottom: 90px;
 }
 
+/* --- Flipkart Header Style --- */
 header{
-background:linear-gradient(135deg,#ff4f9a,#ff85b3);
-padding:15px 5%;
+background:#2874f0;
+padding:12px 5%;
 display:flex;
 justify-content:space-between;
 align-items:center;
 position:sticky;
 top:0;
 z-index:1000;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
+box-shadow:0 2px 4px rgba(0,0,0,0.1);
 }
 
 .logo{
 display:flex;
-align-items:center;
-gap:10px;
-}
-
-.logo img{
-width:50px;
-height:50px;
-border-radius:50%;
-background:#fff;
-object-fit:cover;
+flex-direction: column;
+text-decoration: none;
+line-height: 1;
 }
 
 .logo h1{
 color:white;
-font-size:24px;
+font-size:20px;
+font-style: italic;
+font-weight: 700;
+letter-spacing: 0.5px;
+margin: 0;
+}
+
+.logo h1 span {
+color: #ffe500;
+font-weight: 700;
+}
+
+.logo .explore-plus {
+font-size: 11px;
+color: #f0f0f0;
+font-style: italic;
+margin-top: 2px;
+font-weight: 400;
+}
+
+.logo .plus-text {
+color: #ffe500;
+font-weight: 700;
 }
 
 nav a{
 text-decoration:none;
 color:white;
-margin-left:15px;
-font-weight:600;
+margin-left:20px;
+font-weight:500;
 font-size: 14px;
 transition: opacity 0.2s ease;
 }
 
-/* Mobile Click Optimization */
 .btn, .qty-btn, nav a, .close-modal {
 cursor: pointer;
-touch-action: manipulation; /* Removes 300ms mobile touch delay */
+touch-action: manipulation;
 }
 
+/* --- Hero Banner --- */
 .hero{
-height:70vh;
-background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
-url('Shree boutique.jpg');
-background-size:cover;
-background-position:center;
+height:35vh;
+background:linear-gradient(rgba(40, 116, 240, 0.85), rgba(23, 35, 55, 0.9));
 display:flex;
 justify-content:center;
 align-items:center;
@@ -87,194 +100,226 @@ padding:20px;
 }
 
 .hero h2{
-font-size:36px;
-margin-bottom:10px;
-line-height: 1.2;
+font-size:32px;
+margin-bottom:8px;
+font-weight: 700;
 }
 
 .hero p{
-font-size:18px;
+font-size:16px;
 margin-bottom:20px;
+color: #f0f0f0;
 }
 
+/* --- Primary & Secondary Buttons --- */
 .btn{
 display:inline-block;
-padding:12px 25px;
-background:#ff4f9a;
+padding:12px 24px;
+background:#fb641b;
 color:white;
 text-decoration:none;
-border-radius:30px;
-font-weight:600;
+border-radius:2px;
+font-weight:500;
+font-size: 14px;
 border: none;
-transition: transform 0.1s ease, background-color 0.1s ease;
-box-shadow: 0 4px 10px rgba(255, 79, 154, 0.3);
+text-transform: uppercase;
+box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+transition: background 0.2s;
+text-align: center;
 }
 
-.btn:hover { background:#e03e83; }
-.btn:active { transform: scale(0.95); }
+.btn:hover { background:#e05310; }
+.btn:active { transform: scale(0.98); }
 
-.section{ padding:40px 5%; }
-.title{ text-align:center; font-size:28px; margin-bottom:30px; color:#ff4f9a; }
+.section{ padding:25px 5%; }
+.title{ font-size:22px; font-weight: 500; margin-bottom:20px; color:#212121; border-bottom: 1px solid #ddd; padding-bottom: 10px; background: #fff; padding: 15px; margin-left: -5%; margin-right: -5%; padding-left: 5%; }
 
+/* --- Flipkart Grid & Product Cards --- */
 .categories{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:12px;
 }
 
 .card{
 background:white;
-border-radius:15px;
+border-radius:4px;
 overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,.06);
-transition:.3s;
+box-shadow:0 1px 5px rgba(0,0,0,.1);
+transition:.2s;
 display: flex;
 flex-direction: column;
 position: relative;
+padding: 12px;
 }
 
 .card:hover{
-transform:translateY(-5px);
+box-shadow: 0 4px 12px rgba(0,0,0,.15);
 }
 
 .card img{
 width:100%;
-height:300px;
-object-fit:cover;
+height:240px;
+object-fit:contain;
+background: #fdfdfd;
+margin-bottom: 10px;
 }
 
-.card h3{ padding:15px 15px 2px; color:#ff4f9a; font-size: 18px; }
-.price-tag { padding: 0 15px; font-size: 18px; font-weight: 700; color: #333; margin-bottom: 8px; }
-.card p{ padding:0 15px 15px; flex-grow: 1; color: #666; font-size: 14px; }
+.card h3{ color:#212121; font-size: 14px; font-weight: 400; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 
+.price-container {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 10px;
+}
+
+.price-tag { font-size: 16px; font-weight: 700; color: #212121; }
+.original-price { font-size: 13px; color: #878787; text-decoration: line-through; }
+.discount-tag { font-size: 13px; color: #388e3c; font-weight: 500; }
+
+.card p{ color: #666; font-size: 12px; margin-bottom: 15px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* --- Flipkart Style Add/Qty Controls --- */
 .quantity-control {
 display: none;
 align-items: center;
 justify-content: space-between;
-margin: 0 15px 20px;
-background: #fff0f5;
-border-radius: 30px;
-padding: 4px;
-border: 1px solid #ff4f9a;
+background: #fff;
+border-radius: 2px;
+padding: 0;
+border: 1px solid #dbdbdb;
+height: 38px;
+width: 100%;
 }
 
-.quantity-control span { font-weight: 700; color: #ff4f9a; font-size: 16px; }
+.quantity-control span { font-weight: 700; color: #212121; font-size: 14px; }
 
 .qty-btn {
 width: 38px;
-height: 38px;
-background: #ff4f9a;
-color: white;
+height: 100%;
+background: #f9f9f9;
+color: #212121;
 border: none;
-border-radius: 50%;
-font-size: 20px;
-font-weight: 700;
+font-size: 18px;
+font-weight: 500;
 display: flex;
 align-items: center;
 justify-content: center;
 }
+.qty-btn.minus { border-right: 1px solid #dbdbdb; }
+.qty-btn.plus { border-left: 1px solid #dbdbdb; }
 
-.card .add-to-cart-btn { margin: 0 15px 20px; text-align: center; }
-.about{ background:#ffe5f0; text-align:center; border-radius:20px; padding:30px 20px; }
-.reviews{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:15px; }
-.review{ background:white; padding:15px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,.04); font-size: 14px; }
-.contact{ text-align:center; }
-.contact-box { background:white; padding:25px; border-radius:20px; max-width:700px; margin:auto; box-shadow:0 5px 15px rgba(0,0,0,.06); }
-
-.contact a{
-display:inline-block;
-margin:8px;
-padding:12px 25px;
-text-decoration:none;
-color:white;
-border-radius:30px;
-font-weight:600;
-font-size: 14px;
+.card .add-to-cart-btn { 
+background: #ff9f00; 
+color: white;
+border: none;
+border-radius: 2px; 
+font-size: 13px; 
+padding: 10px;
+width: 100%;
+font-weight: 500;
+text-transform: uppercase;
 }
+.card .add-to-cart-btn:hover { background: #f39600; }
 
-.whatsapp{ background:#25D366; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
-.instagram{ background:#E1306C; box-shadow: 0 4px 10px rgba(225, 48, 108, 0.3); }
-footer{ background:#222; color:white; text-align:center; padding:20px; margin-top:40px; font-size: 13px; }
+.about{ background:white; border-radius:4px; padding:25px; box-shadow:0 1px 3px rgba(0,0,0,.1); }
+.reviews{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+.review { background:white; padding:15px; border-radius:4px; box-shadow:0 1px 3px rgba(0,0,0,.1); font-size: 13px; }
+.review span { background: #388e3c; color: white; padding: 2px 6px; font-size: 11px; font-weight:500; border-radius: 3px; margin-right: 5px; }
 
-/* Sticky Cart Bar Optimized for Mobile Navigation */
+.contact-box { background:white; padding:25px; border-radius:4px; max-width:700px; margin:auto; box-shadow:0 1px 3px rgba(0,0,0,.1); text-align: center; }
+.contact-box a { border-radius: 2px; text-transform: none; font-size: 14px; }
+.whatsapp{ background:#25D366; color: white; display: inline-block; padding: 12px 25px; text-decoration: none; margin: 5px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); font-weight: 500;}
+.instagram{ background:#E1306C; color: white; display: inline-block; padding: 12px 25px; text-decoration: none; margin: 5px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); font-weight: 500;}
+
+footer{ background:#172337; color:#7e8794; text-align:center; padding:25px; margin-top:40px; font-size: 13px; border-top: 1px solid #454d5e; }
+
+/* --- Sticky Purchase Bar --- */
 .cart-bar {
 position: fixed;
 bottom: 0;
 left: 0;
 width: 100%;
 background: white;
-box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 padding: 12px 5%;
 display: none;
 justify-content: space-between;
 align-items: center;
 z-index: 1500;
-border-top: 3px solid #ff4f9a;
+border-top: 1px solid #e0e0e0;
 }
 
-.cart-info h4 { color: #ff4f9a; font-size: 15px; }
-.cart-info p { font-size: 13px; color: #666; }
+.cart-info h4 { color: #212121; font-size: 16px; font-weight: 500; }
+.cart-info p { font-size: 14px; color: #878787; }
+.cart-bar .btn { background: #fb641b; padding: 14px 30px; font-size: 15px; }
 
-/* Responsive Slide-up Sheet for Mobile, Center Pop-up for PC */
+/* --- Checkout Dialog / Modal --- */
 .modal-overlay {
 position: fixed;
 top: 0; left: 0; width: 100%; height: 100%;
-background: rgba(0, 0, 0, 0.5);
-display: flex; justify-content: center; align-items: flex-end; /* Slides up from bottom on phone */
+background: rgba(0, 0, 0, 0.6);
+display: flex; justify-content: center; align-items: flex-end;
 opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 2000;
 }
 
 .modal-overlay.active { opacity: 1; pointer-events: auto; }
 
 .modal-box {
-background: white;
-padding: 25px 20px;
-border-radius: 20px 20px 0 0;
+background: #f1f3f6;
+padding: 0;
+border-radius: 8px 8px 0 0;
 width: 100%;
-max-width: 480px;
-box-shadow: 0 -5px 25px rgba(0,0,0,0.15);
+max-width: 550px;
+box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
 transform: translateY(100%);
 transition: transform 0.3s ease;
-max-height: 85vh;
+max-height: 90vh;
 overflow-y: auto;
 position: relative;
 }
 
 .modal-overlay.active .modal-box { transform: translateY(0); }
 
-.modal-box h3 { color: #ff4f9a; margin-bottom: 12px; font-size: 22px; }
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; background: none; border: none; color: #aaa; }
-.order-summary-list { background: #fff8fb; border-radius: 10px; padding: 12px; margin-bottom: 15px; border: 1px solid #ffe5f0; }
-.summary-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; border-bottom: 1px dashed #eee; padding-bottom: 4px; }
-.summary-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 16px; color: #ff4f9a; margin-top: 8px; padding-top: 8px; border-top: 2px solid #ff4f9a; }
-.form-group { margin-bottom: 12px; text-align: left; }
-.form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; }
-.form-group input, .form-group textarea { width: 100%; padding: 10px 12px; border: 2px solid #eee; border-radius: 8px; font-size: 14px; outline: none; }
-.form-group input:focus, .form-group textarea:focus { border-color: #ff4f9a; }
-.policy-box { background: #fff5f5; border: 1px solid #feb2b2; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: left; }
-.policy-box h4 { color: #c53030; font-size: 13px; margin-bottom: 4px; font-weight: 700; }
-.policy-box ul { list-style-type: none; font-size: 12px; color: #4a5568; }
-.checkbox-group { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 15px; text-align: left; }
-.checkbox-group input { width: 18px; height: 18px; accent-color: #ff4f9a; }
-.checkbox-group label { font-size: 12px; font-weight: 600; color: #333; }
-.payment-badge { background: #fff0f5; border: 1px dashed #ff4f9a; padding: 8px; border-radius: 8px; color: #d61a6f; font-weight: 600; font-size: 12px; text-align: center; margin-bottom: 12px; }
-.error-msg { color: #e53e3e; font-size: 12px; margin-top: 4px; display: none; font-weight: 500; }
+.modal-header { background: #2874f0; color: white; padding: 15px 20px; font-size: 18px; font-weight: 500; }
+.modal-body { padding: 15px; }
+.close-modal { position: absolute; top: 12px; right: 20px; font-size: 26px; background: none; border: none; color: white; }
 
-/* Tablet and Desktop Screens Adjustments */
+.order-summary-list { background: white; border-radius: 2px; padding: 15px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.summary-item { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px; color: #212121; }
+.summary-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 16px; color: #212121; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e0e0e0; }
+
+.form-block { background: white; padding: 15px; border-radius: 2px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.form-group { margin-bottom: 14px; text-align: left; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 6px; font-size: 13px; color: #878787; }
+.form-group input, .form-group textarea { width: 100%; padding: 11px 12px; border: 1px solid #c2c2c2; border-radius: 2px; font-size: 14px; outline: none; }
+.form-group input:focus, .form-group textarea:focus { border-color: #2874f0; }
+
+.policy-box { background: #fff9f9; border: 1px solid #ffb3b3; padding: 12px; border-radius: 2px; margin-bottom: 12px; }
+.policy-box h4 { color: #d32f2f; font-size: 13px; margin-bottom: 6px; font-weight: 700; }
+.policy-box ul { list-style-type: disc; margin-left: 15px; font-size: 12px; color: #444; }
+
+.checkbox-group { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 15px; }
+.checkbox-group input { width: 16px; height: 16px; accent-color: #2874f0; margin-top: 2px; }
+.checkbox-group label { font-size: 12px; color: #212121; line-height: 1.4; }
+
+.payment-badge { background: #fff7e6; border: 1px solid #ffe0b2; padding: 10px; border-radius: 2px; color: #bc5100; font-weight: 500; font-size: 13px; text-align: center; margin-bottom: 12px; }
+.error-msg { color: #d32f2f; font-size: 12px; margin-top: 4px; display: none; }
+
 @media(min-width:769px){
-  header { padding: 15px 8%; }
-  .logo h1 { font-size: 28px; }
-  .hero h2 { font-size: 50px; }
-  .section { padding: 60px 8%; }
-  .modal-overlay { align-items: center; } /* Centers popup layout on PC screens */
-  .modal-box { border-radius: 20px; transform: translateY(-20px); }
+  header { padding: 12px 8%; }
+  .logo h1 { font-size: 22px; }
+  .hero h2 { font-size: 42px; }
+  .section { padding: 30px 8%; }
+  .modal-overlay { align-items: center; }
+  .modal-box { border-radius: 4px; transform: translateY(-20px); }
   .modal-overlay.active .modal-box { transform: translateY(0); }
 }
 
-@media(max-width:768px){
-  header{ flex-direction:column; gap: 10px; text-align: center; }
-  nav{ margin-top:5px; display: flex; justify-content: center; width: 100%; }
-  nav a { margin: 0 10px; }
+@media(max-width:768px) {
+  header{ padding: 12px 15px; }
+  nav { display: none; }
 }
 </style>
 </head>
@@ -282,10 +327,10 @@ position: relative;
 <body>
 
 <header>
-<div class="logo">
-<img src="Shree boutique.jpg" alt="Logo">
-<h1>Shree Boutique</h1>
-</div>
+<a href="#home" class="logo">
+  <h1>Shree <span>Boutique</span></h1>
+  <div class="explore-plus">Explore <span class="plus-text">Plus ✨</span></div>
+</a>
 <nav>
 <a href="#home">Home</a>
 <a href="#collection">Collection</a>
@@ -296,91 +341,47 @@ position: relative;
 
 <section class="hero" id="home">
 <div>
-<h2>Modern Fashion For Women & Girls</h2>
-<p>Latest Sarees, Chudithars & Trendy Dresses</p>
-<a href="#collection" class="btn">Explore Collection</a>
+<h2>Modern Fashion Hub</h2>
+<p>Top Brands & Best Deals on Ethnic & Casual Wears</p>
+<a href="#collection" class="btn" style="background:#2874f0;">Shop Now</a>
 </div>
 </section>
 
 <section class="section" id="collection">
-<h2 class="title">Our Collections</h2>
-
-<div class="categories">
-  <div class="card" data-id="p1">
-    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80">
-    <h3>Modern Sarees</h3>
-    <div class="price-tag">₹1499</div>
-    <p>Elegant saree collections for all occasions.</p>
-    <button class="btn add-to-cart-btn">Add To Cart</button>
-    <div class="quantity-control">
-      <button class="qty-btn minus">-</button>
-      <span class="qty-val">0</span>
-      <button class="qty-btn plus">+</button>
-    </div>
-  </div>
-
-  <div class="card" data-id="p2">
-    <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=800&q=80">
-    <h3>Modern Chudithars</h3>
-    <div class="price-tag">₹999</div>
-    <p>Comfortable and stylish chudithars.</p>
-    <button class="btn add-to-cart-btn">Add To Cart</button>
-    <div class="quantity-control">
-      <button class="qty-btn minus">-</button>
-      <span class="qty-val">0</span>
-      <button class="qty-btn plus">+</button>
-    </div>
-  </div>
-
-  <div class="card" data-id="p3">
-    <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80">
-    <h3>Modern Dresses</h3>
-    <div class="price-tag">₹1299</div>
-    <p>Trendy dresses for girls and women.</p>
-    <button class="btn add-to-cart-btn">Add To Cart</button>
-    <div class="quantity-control">
-      <button class="qty-btn minus">-</button>
-      <span class="qty-val">0</span>
-      <button class="qty-btn plus">+</button>
-    </div>
-  </div>
-</div>
+<h2 class="title">Featured Collections</h2>
+<div class="categories" id="productGrid"></div>
 </section>
 
 <section class="section" id="about">
 <div class="about">
-<h2 class="title">About Shree Boutique</h2>
-<p>
-Welcome to Shree Boutique. We specialize in modern sarees,
-stylish chudithars, party wear collections, and fashionable dresses
-for women and girls. Our mission is to provide quality fashion with
-comfort and elegance.
+<h2 style="font-size: 20px; color: #212121; margin-bottom: 10px;">About Shree Boutique</h2>
+<p style="font-size: 14px; color: #666; line-height: 1.6;">
+Welcome to Shree Boutique. We specialize in modern sarees, stylish chudithars, party wear collections, and fashionable dresses for women and girls. Our mission is to provide quality fashion with comfort, reliability, and marketplace elegance.
 </p>
 </div>
 </section>
 
 <section class="section">
-<h2 class="title">Customer Reviews</h2>
+<h2 style="font-size: 18px; margin-bottom: 15px;">Ratings & Customer Reviews</h2>
 <div class="reviews">
-<div class="review">⭐⭐⭐⭐⭐<p>Beautiful collection and excellent quality.</p><b>- Happy Customer</b></div>
-<div class="review">⭐⭐⭐⭐⭐<p>Latest designs and affordable prices.</p><b>- Regular Customer</b></div>
-<div class="review">⭐⭐⭐⭐⭐<p>Perfect boutique for women and girls.</p><b>- Customer</b></div>
+<div class="review"><span>4.8 ★</span> <b>Excellent Quality</b><p style="color:#666; margin-top:5px;">Beautiful collection and amazing fabric texture.</p></div>
+<div class="review"><span>4.5 ★</span> <b>Value For Money</b><p style="color:#666; margin-top:5px;">Latest designs and highly competitive affordable prices.</p></div>
+<div class="review"><span>5.0 ★</span> <b>Highly Recommended</b><p style="color:#666; margin-top:5px;">Perfect boutique marketplace experience for clothing.</p></div>
 </div>
 </section>
 
 <section class="section contact" id="contact">
-<h2 class="title">Contact Us</h2>
 <div class="contact-box">
-<p><strong>Mobile:</strong> +91 9789646209</p>
-<p><strong>WhatsApp:</strong> +91 9789646209</p>
-<br>
-<a href="https://wa.me/919789646209" target="_blank" class="whatsapp">WhatsApp Us</a>
-<a href="https://instagram.com/sree_boutique123" target="_blank" class="instagram">Instagram</a>
+<h3 style="font-size: 18px; margin-bottom: 15px;">Connect With Us</h3>
+<p style="font-size: 14px; margin-bottom: 5px;"><strong>Mobile:</strong> +91 9789646209</p>
+<p style="font-size: 14px; margin-bottom: 15px;"><strong>WhatsApp Support:</strong> +91 9789646209</p>
+<a href="https://wa.me/919789646209" target="_blank" class="whatsapp">WhatsApp Order Help</a>
+<a href="https://instagram.com/sree_boutique123" target="_blank" class="instagram">Follow Instagram</a>
 </div>
 </section>
 
 <footer>
-© 2026 Shree Boutique | Fashion For Women & Girls
+© 2026 Shree Boutique. All Rights Reserved. Code optimized with premium e-commerce structure.
 </footer>
 
 <div class="cart-bar" id="cartBar">
@@ -388,59 +389,63 @@ comfort and elegance.
     <h4 id="cartCount">Items Added: 0</h4>
     <p id="cartTotal">Subtotal: ₹0</p>
   </div>
-  <button class="btn" id="openCheckoutBtn">Proceed to Order</button>
+  <button class="btn" id="openCheckoutBtn">Place Order</button>
 </div>
 
 <div class="modal-overlay" id="checkoutModal">
 <div class="modal-box">
 <button class="close-modal" id="closeModal">&times;</button>
-<h3>🛍️ Finalize Your Order</h3>
-<p style="font-size: 13px; margin-bottom: 10px; color:#666;">Review items chosen:</p>
+<div class="modal-header">Price Details & Checkout</div>
 
+<div class="modal-body">
 <div class="order-summary-list" id="summaryItemsList"></div>
 
 <form id="checkoutForm">
-<div class="form-group">
-<label for="custName">Your Name *</label>
-<input type="text" id="custName" required placeholder="Enter full name">
-</div>
+<div class="form-block">
+  <h4 style="font-size:14px; margin-bottom:12px; color:#212121; font-weight:500;">Delivery & Contact Data</h4>
+  <div class="form-group">
+  <label for="custName">Full Name *</label>
+  <input type="text" id="custName" required placeholder="Enter full name">
+  </div>
 
-<div class="form-group">
-<label for="custPhone">Mobile Number (10 Digits) *</label>
-<input type="tel" id="custPhone" required maxlength="10" placeholder="Enter valid phone number">
-<div class="error-msg" id="phoneError">Please enter a valid 10-digit mobile number. Fake patterns are blocked.</div>
-</div>
+  <div class="form-group">
+  <label for="custPhone">10-Digit Mobile Number *</label>
+  <input type="tel" id="custPhone" required maxlength="10" placeholder="Enter valid phone number">
+  <div class="error-msg" id="phoneError">Please enter a valid 10-digit mobile number.</div>
+  </div>
 
-<div class="form-group">
-<label for="custAddress">Delivery Address *</label>
-<textarea id="custAddress" rows="3" required placeholder="Street name, City, Pincode"></textarea>
+  <div class="form-group">
+  <label for="custAddress">Delivery Address *</label>
+  <textarea id="custAddress" rows="3" required placeholder="House No, Building, Street Name, City, Pincode"></textarea>
+  </div>
 </div>
 
 <div class="payment-badge">
-⚠️ Mode: Online Payment Only (No Cash on Delivery available)
+  Mode: Online Pre-paid Only (Cash on Delivery unavailable)
 </div>
 
 <div class="policy-box">
-  <h4>⚠️ Important Store Policies:</h4>
+  <h4>⚠️ Essential Terms and Policies:</h4>
   <ul>
-    <li>🛑 <strong>No Order Cancellations</strong> once placed.</li>
-    <li>❌ <strong>No Returns / No Exchanges</strong>.</li>
-    <li>🎥 <strong>Opening Video Proof Required</strong> for any damage claims.</li>
+    <li>No Order Cancellations are permitted once confirmed.</li>
+    <li>No Returns / No Exchanges accepted.</li>
+    <li>Mandatory unedited parcel unboxing video required for any claim.</li>
   </ul>
 </div>
 
 <div class="checkbox-group">
   <input type="checkbox" id="agreeTerms" required>
-  <label for="agreeTerms">I agree to the Store Policies (No Cancel, No Return, Damage Video Proof Mandatory) *</label>
+  <label for="agreeTerms">I accept and agree to all the Store Terms and return limitations noted above *</label>
 </div>
 
-<button type="submit" class="btn" style="width: 100%;">Place Order via WhatsApp 🚀</button>
+<button type="submit" class="btn" style="width: 100%; background:#fb641b;">Continue to Whatsapp Checkout 🚀</button>
 </form>
+</div>
 </div>
 </div>
 
 <script>
-// Firebase initialization configuration block mapping
+// Firebase configuration initialized
 const firebaseConfig = {
   apiKey: "AIzaSyDGXzFFfTcayU2L4aTC3XEfUEvl3RpaUe8",
   authDomain: "shree-boutique-46f0a.firebaseapp.com",
@@ -451,11 +456,78 @@ const firebaseConfig = {
   databaseURL: "https://shree-boutique-46f0a-default-rtdb.firebaseio.com"
 };
 
-// Start connection up safely
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+const productsData = [
+  {
+    id: "p1",
+    name: "Modern Sarees",
+    price: 1499,
+    originalPrice: 1999,
+    description: "Elegant saree collections for premium wedding and festival occasions.",
+    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "p2",
+    name: "Modern Chudithars",
+    price: 999,
+    originalPrice: 1499,
+    description: "Comfortable, premium grade, and highly stylish custom chudithars.",
+    image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "p3",
+    name: "Modern Dresses",
+    price: 1299,
+    originalPrice: 1799,
+    description: "Trendy everyday and party dresses tailored perfectly for girls and women.",
+    image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80"
+  }, 
+  {
+    id: "p4",
+    name: "Vasti for Women",
+    price: 2000,
+    originalPrice: 2499,
+    description: "This structural vasti wear is highly durable, comfortable and looks awesome!",
+    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80"
+  }
+];
+
 let cart = {};
+
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  if(!grid) return;
+  
+  grid.innerHTML = productsData.map(prod => {
+    const discount = Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100);
+    return `
+    <div class="card" data-id="${prod.id}">
+      <img src="${prod.image}" alt="${prod.name}">
+      <h3>${prod.name}</h3>
+      <div style="margin-bottom: 5px;">
+         <span style="font-size:12px; font-weight:bold; background:#388e3c; color:white; padding:1px 4px; border-radius:3px;">4.4 ★</span>
+         <span style="color:#878787; font-size:12px; font-weight:500;">(210)</span>
+         <span style="color:#2874f0; font-size:12px; font-weight:700; margin-left:8px;">✓ F-Assured</span>
+      </div>
+      <div class="price-container">
+        <span class="price-tag">₹${prod.price}</span>
+        <span class="original-price">₹${prod.originalPrice}</span>
+        <span class="discount-tag">${discount}% off</span>
+      </div>
+      <p>${prod.description}</p>
+      <button class="btn add-to-cart-btn">Add To Cart</button>
+      <div class="quantity-control">
+        <button class="qty-btn minus">-</button>
+        <span class="qty-val">0</span>
+        <button class="qty-btn plus">+</button>
+      </div>
+    </div>
+  `}).join('');
+  
+  setupCartEventListeners();
+}
 
 function updateCardUI(productId) {
   const card = document.querySelector(`.card[data-id="${productId}"]`);
@@ -468,7 +540,7 @@ function updateCardUI(productId) {
   if (cart[productId] && cart[productId].qty > 0) {
     addBtn.style.display = 'none';
     qtyControl.style.display = 'flex';
-    qtyVal.textContent = cart[productId].qty;
+    qtyVal.textContent = Math.min(cart[productId].qty, 10);
   } else {
     addBtn.style.display = 'block';
     qtyControl.style.display = 'none';
@@ -491,46 +563,48 @@ function renderCartBar() {
   if (totalQty > 0) {
     cartBar.style.display = 'flex';
     cartCountText.textContent = `Items Added: ${totalQty}`;
-    cartTotalText.textContent = `Subtotal: ₹${totalPrice}`;
+    cartTotalText.textContent = `Total Due: ₹${totalPrice}`;
   } else {
     cartBar.style.display = 'none';
   }
 }
 
-document.querySelectorAll('.card').forEach(card => {
-  const productId = card.getAttribute('data-id');
-  const name = card.querySelector('h3').textContent.trim();
-  const price = parseInt(card.querySelector('.price-tag').textContent.replace(/[^\d]/g, ''), 10);
-  
-  const addBtn = card.querySelector('.add-to-cart-btn');
-  const plusBtn = card.querySelector('.plus');
-  const minusBtn = card.querySelector('.minus');
+function setupCartEventListeners() {
+  document.querySelectorAll('.card').forEach(card => {
+    const productId = card.getAttribute('data-id');
+    const name = card.querySelector('h3').textContent.trim();
+    const price = parseInt(card.querySelector('.price-tag').textContent.replace(/[^\d]/g, ''), 10);
+    
+    const addBtn = card.querySelector('.add-to-cart-btn');
+    const plusBtn = card.querySelector('.plus');
+    const minusBtn = card.querySelector('.minus');
 
-  addBtn.addEventListener('click', () => {
-    cart[productId] = { name, price, qty: 1 };
-    updateCardUI(productId);
-    renderCartBar();
-  });
-
-  plusBtn.addEventListener('click', () => {
-    if (cart[productId]) {
-      cart[productId].qty++;
+    addBtn.addEventListener('click', () => {
+      cart[productId] = { name, price, qty: 1 };
       updateCardUI(productId);
       renderCartBar();
-    }
-  });
+    });
 
-  minusBtn.addEventListener('click', () => {
-    if (cart[productId]) {
-      cart[productId].qty--;
-      if (cart[productId].qty <= 0) {
-        delete cart[productId];
+    plusBtn.addEventListener('click', () => {
+      if (cart[productId]) {
+        cart[productId].qty++;
+        updateCardUI(productId);
+        renderCartBar();
       }
-      updateCardUI(productId);
-      renderCartBar();
-    }
+    });
+
+    minusBtn.addEventListener('click', () => {
+      if (cart[productId]) {
+        cart[productId].qty--;
+        if (cart[productId].qty <= 0) {
+          delete cart[productId];
+        }
+        updateCardUI(productId);
+        renderCartBar();
+      }
+    });
   });
-});
+}
 
 const modal = document.getElementById('checkoutModal');
 const closeModalBtn = document.getElementById('closeModal');
@@ -541,28 +615,30 @@ const phoneError = document.getElementById('phoneError');
 const summaryItemsList = document.getElementById('summaryItemsList');
 
 openCheckoutBtn.addEventListener('click', () => {
-  summaryItemsList.innerHTML = '';
+  summaryItemsList.innerHTML = '<h4 style="font-size:14px; margin-bottom:10px; color:#212121; font-weight:500;">Price Details Summary</h4>';
   let grandTotal = 0;
+  let calculationRows = "";
 
   Object.values(cart).forEach(item => {
     const itemTotal = item.price * item.qty;
     grandTotal += itemTotal;
     
-    summaryItemsList.innerHTML += `
+    calculationRows += `
       <div class="summary-item">
         <span>${item.name} (x${item.qty})</span>
-        <span>₹${itemTotal}</span>
+        <span style="font-weight:500;">₹${itemTotal}</span>
       </div>
     `;
   });
 
-  summaryItemsList.innerHTML += `
+  calculationRows += `
     <div class="summary-total">
-      <span>Grand Total:</span>
-      <span>₹${grandTotal}</span>
+      <span>Amount Payable:</span>
+      <span style="color:#2874f0;">₹${grandTotal}</span>
     </div>
   `;
-
+  
+  summaryItemsList.innerHTML += calculationRows;
   modal.classList.add('active');
 });
 
@@ -605,7 +681,7 @@ checkoutForm.addEventListener('submit', (e) => {
   Object.values(cart).forEach((item, index) => {
     const cost = item.price * item.qty;
     overallTotal += cost;
-    itemsString += `${index + 1}️⃣ *${item.name}*\n      🔹 Qnty: ${item.qty} \n      🔹 Price: ₹${cost}\n\n`;
+    itemsString += `${index + 1}️⃣ *${item.name}*\n     🔹 Qnty: ${item.qty} \n     🔹 Price: ₹${cost}\n\n`;
     
     orderItemsData.push({
       productName: item.name,
@@ -615,7 +691,20 @@ checkoutForm.addEventListener('submit', (e) => {
     });
   });
 
-  // STEP 1: Push data straight into your Firebase Realtime Database
+  const rawMessage = `✨ *NEW BOUTIQUE ORDER* ✨\n\n` +
+    `👤 *Customer Name:* ${name}\n` +
+    `📞 *Mobile Number:* ${phone}\n` +
+    `📍 *Delivery Address:* ${address}\n\n` +
+    `📦 *ORDERED ITEMS:*\n${itemsString}` +
+    `💳 *PAYMENT MODE:* Online Payment Only ✅\n` +
+    `💰 *TOTAL AMOUNT DUE:* 🌟 *₹${overallTotal}* 🌟\n\n` +
+    `⚠️ *STORE TERMS ACCEPTED:*\n` +
+    `🛑 No Order Cancellation Allowed\n` +
+    `❌ No Returns / No Exchanges\n` +
+    `🎥 Box Unboxing Video Proof Mandatory for Damage Claims\n\n` +
+    `Please share your online payment screenshot to confirm this order! 🙏`;
+
+  // Storing structural data dynamically into Firebase
   const ordersRef = db.ref('orders');
   ordersRef.push({
     customerName: name,
@@ -625,38 +714,28 @@ checkoutForm.addEventListener('submit', (e) => {
     totalAmount: overallTotal,
     timestamp: new Date().toISOString(),
     paymentMode: "Online Payment Only"
-  }).then(() => {
-    console.log("Saved securely to Firebase!");
-  }).catch((error) => {
-    console.error("Firebase Database Error: ", error);
+  })
+  .then(() => {
+    window.open(`https://wa.me/${businessNumber}?text=${encodeURIComponent(rawMessage)}`, '_blank');
+
+    modal.classList.remove('active');
+    checkoutForm.reset();
+    cart = {};
+    
+    document.querySelectorAll('.card').forEach(card => {
+      const productId = card.getAttribute('data-id');
+      updateCardUI(productId);
+    });
+    renderCartBar();
+  })
+  .catch((error) => {
+    console.error("Firebase Storage Failure:", error);
+    alert("Connection error: Unable to log order data. Please retry.");
   });
+});
 
-  // STEP 2: Compile order details text and dispatch to WhatsApp window
-  const message = `✨ *NEW ORDER - SHREE BOUTIQUE* ✨%0A%0A` +
-    `👤 *Customer Name:* ${encodeURIComponent(name)}%0A` +
-    `📞 *Mobile Number:* ${encodeURIComponent(phone)}%0A` +
-    `📍 *Delivery Address:* ${encodeURIComponent(address)}%0A%0A` +
-    `📦 *ORDERED ITEMS:*%0A${encodeURIComponent(itemsString)}` +
-    `💳 *PAYMENT MODE:* Online Payment Only ✅%0A` +
-    `💰 *TOTAL AMOUNT DUE:* 🌟 *₹${overallTotal}* 🌟%0A%0A` +
-    `⚠️ *STORE TERMS ACCEPTED:*%0A` +
-    `🛑 No Order Cancellation Allowed%0A` +
-    `❌ No Returns / No Exchanges%0A` +
-    `🎥 Box Unboxing Video Proof Mandatory for Damage Claims%0A%0A` +
-    `Please share your online payment screenshot to confirm this order! 🙏`;
-
-  window.open(`https://wa.me/${businessNumber}?text=${message}`, '_blank');
-
-  // STEP 3: Clear checkout window states safely
-  modal.classList.remove('active');
-  checkoutForm.reset();
-  cart = {};
-  
-  document.querySelectorAll('.card').forEach(card => {
-    const productId = card.getAttribute('data-id');
-    updateCardUI(productId);
-  });
-  renderCartBar();
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts();
 });
 </script>
 
