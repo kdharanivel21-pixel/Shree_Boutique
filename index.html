@@ -107,21 +107,29 @@ cursor: pointer;
 touch-action: manipulation;
 }
 
-/* --- Universal Single Responsive Banner --- */
+/* --- Smart Banner Container --- */
 .hero-container {
 width: 100%;
 overflow: hidden;
-background: #2874f0;
+background: #fdf5f6;
 line-height: 0;
 }
 
-.universal-banner {
+/* Shows desktop image on computers, hides on phones */
+.banner-desktop {
+display: block;
 width: 100%;
 height: auto;
-max-height: 450px; /* Limits size on ultra-wide screens */
-object-fit: cover; /* Keeps it looking clean on tight mobile screen ratios */
+max-height: 450px;
+object-fit: cover;
 object-position: center;
-display: block;
+}
+
+/* Hides mobile image on computers */
+.banner-mobile {
+display: none;
+width: 100%;
+height: auto;
 }
 
 /* --- Primary & Secondary Buttons --- */
@@ -184,7 +192,6 @@ height:240px;
 object-fit:contain;
 background: #fdfdfd;
 margin-bottom: 10px;
-transition: transform 0.3s ease;
 }
 
 .card h3{ color:#212121; font-size: 14px; font-weight: 400; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
@@ -213,12 +220,6 @@ padding: 0;
 border: 1px solid #dbdbdb;
 height: 38px;
 width: 100%;
-animation: popIn 0.25s ease-out forwards;
-}
-
-@keyframes popIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
 }
 
 .quantity-control span { font-weight: 700; color: #212121; font-size: 14px; }
@@ -335,6 +336,7 @@ position: relative;
 .payment-badge { background: #fff7e6; border: 1px solid #ffe0b2; padding: 12px; border-radius: 2px; color: #bc5100; font-weight: 700; font-size: 14px; text-align: center; margin-bottom: 12px; }
 .error-msg { color: #d32f2f; font-size: 12px; margin-top: 4px; display: none; }
 
+/* --- Responsive Layout Rules --- */
 @media(min-width:769px){
   header { padding: 12px 8%; }
   .logo-text-wrapper h1 { font-size: 22px; }
@@ -346,9 +348,12 @@ position: relative;
 @media(max-width:768px) {
   header{ padding: 10px 15px; }
   nav { display: none; }
-  .universal-banner {
-    height: 180px; /* Forces a neat mobile landscape ratio on the desktop graphic */
-  }
+  
+  /* Hides widescreen banner on mobile */
+  .banner-desktop { display: none; }
+  
+  /* Displays the optimized portrait mobile image banner instead */
+  .banner-mobile { display: block; }
 }
 </style>
 </head>
@@ -372,7 +377,8 @@ position: relative;
 </header>
 
 <div class="hero-container" id="home">
-  <img src="Shree Boutique Desktop.png.png" alt="Shree Boutique Sale Banner" class="universal-banner">
+  <img src="Shree Boutique Desktop.png" alt="Shree Boutique Sale Banner" class="banner-desktop">
+  <img src="Shree Boutique mobile.png.png" alt="Shree Boutique Mobile Sale Banner" class="banner-mobile">
 </div>
 
 <section class="section" id="collection">
@@ -482,6 +488,16 @@ Welcome to Shree Boutique. We specialize in modern sarees, stylish chudithars, p
 </div>
 
 <script>
+/* ========================================================
+   👉 PASTE YOUR IMAGE URLS HERE BETWEEN THE QUOTES 👈
+   ======================================================== */
+const IMAGES = {
+  saree: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
+  chudithar: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=800&q=80",
+  dress: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
+  vasti: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80"
+};
+
 const productsData = [
   {
     id: "p1",
@@ -489,7 +505,7 @@ const productsData = [
     price: 1499,
     originalPrice: 1999,
     description: "Elegant saree collections for premium wedding and festival occasions.",
-    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80"
+    image: IMAGES.saree
   },
   {
     id: "p2",
@@ -497,7 +513,7 @@ const productsData = [
     price: 999,
     originalPrice: 1499,
     description: "Comfortable, premium grade, and highly stylish custom chudithars.",
-    image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=800&q=80"
+    image: IMAGES.chudithar
   },
   {
     id: "p3",
@@ -505,7 +521,7 @@ const productsData = [
     price: 1299,
     originalPrice: 1799,
     description: "Trendy everyday and party dresses tailored perfectly for girls and women.",
-    image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80"
+    image: IMAGES.dress
   }, 
   {
     id: "p4",
@@ -513,7 +529,7 @@ const productsData = [
     price: 2000,
     originalPrice: 2499,
     description: "This structural vasti wear is highly durable, comfortable and looks awesome!",
-    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80"
+    image: IMAGES.vasti
   }
 ];
 
@@ -749,7 +765,6 @@ checkoutForm.addEventListener('submit', (e) => {
     `💰 *Total Amount:* *₹${overallTotal}*\n\n` +
     `🎥 Video while opening parcel is compulsory for damage claims!`;
 
-  // Standard Mobile Redirect (Works inside WebViews & mobile browser pop-up environments)
   window.location.href = `https://wa.me/${businessNumber}?text=${encodeURIComponent(rawMessage)}`;
 
   modal.classList.remove('active');
