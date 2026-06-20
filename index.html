@@ -107,7 +107,7 @@ cursor: pointer;
 touch-action: manipulation;
 }
 
-/* --- Smart Universal Banner Container --- */
+/* --- Smart Banner Container --- */
 .hero-container {
 width: 100%;
 overflow: hidden;
@@ -115,14 +115,21 @@ background: #fdf5f6;
 line-height: 0;
 }
 
-/* This responsive rule scales the single banner dynamically across all screens */
-.banner-responsive {
+/* Shows desktop image on computers, hides on phones */
+.banner-desktop {
 display: block;
 width: 100%;
 height: auto;
 max-height: 450px;
 object-fit: cover;
 object-position: center;
+}
+
+/* Hides mobile image on computers */
+.banner-mobile {
+display: none;
+width: 100%;
+height: auto;
 }
 
 /* --- Primary & Secondary Buttons --- */
@@ -341,6 +348,12 @@ position: relative;
 @media(max-width:768px) {
   header{ padding: 10px 15px; }
   nav { display: none; }
+  
+  /* Hides widescreen banner on mobile screens */
+  .banner-desktop { display: none; }
+  
+  /* Displays your mobile portrait banner */
+  .banner-mobile { display: block; }
 }
 </style>
 </head>
@@ -364,7 +377,8 @@ position: relative;
 </header>
 
 <div class="hero-container" id="home">
-  <img src="desktop-banner.png" alt="Shree Boutique Sale Banner" class="banner-responsive">
+  <img src="desktop-banner.png" alt="Shree Boutique Sale Banner" class="banner-desktop">
+  <img src="mobile-banner.png" alt="Shree Boutique Mobile Sale Banner" class="banner-mobile">
 </div>
 
 <section class="section" id="collection">
@@ -474,6 +488,9 @@ Welcome to Shree Boutique. We specialize in modern sarees, stylish chudithars, p
 </div>
 
 <script>
+/* ========================================================
+    👉 PASTE YOUR IMAGE URLS HERE BETWEEN THE QUOTES 👈
+   ======================================================== */
 const IMAGES = {
   saree: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
   chudithar: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=800&q=80",
@@ -739,6 +756,9 @@ checkoutForm.addEventListener('submit', (e) => {
     itemsString += `${index + 1}️⃣ *${item.name}*\n     🛍️ Qty: ${item.qty} \n     💸 Price: ₹${cost}\n\n`;
   });
 
+  // Your website URL is now permanently defined here
+  const customWebsiteUrl = "https://shree-boutique-rho.vercel.app";
+
   const rawMessage = `🛍️ *SHREE BOUTIQUE - NEW ORDER* 🛍️\n\n` +
     `👤 *Name:* ${name}\n` +
     `📞 *Phone:* ${phone}\n` +
@@ -746,6 +766,7 @@ checkoutForm.addEventListener('submit', (e) => {
     `📮 *Pincode:* ${pincode}\n\n` +
     `📦 *ITEMS ORDERED:*\n${itemsString}` +
     `💰 *Total Amount:* *₹${overallTotal}*\n\n` +
+    `🌐 *Store Website:* ${customWebsiteUrl}\n\n` +
     `🎥 Video while opening parcel is compulsory for damage claims!`;
 
   window.location.href = `https://wa.me/${businessNumber}?text=${encodeURIComponent(rawMessage)}`;
