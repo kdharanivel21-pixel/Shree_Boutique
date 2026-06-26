@@ -477,6 +477,7 @@ Welcome to Shree Boutique. We specialize in modern sarees, stylish chudithars, p
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+// Your verified web configuration details
 const firebaseConfig = {
   apiKey: "AIzaSyDGXzFFfTcayU2L4aTC3XEfUEvl3RpaUe8",
   authDomain: "shree-boutique-46f0a.firebaseapp.com",
@@ -487,7 +488,7 @@ const firebaseConfig = {
   appId: "1:693336656915:web:1e76956c03661687e443e6"
 };
 
-// Initialize Firebase Realtime Database
+// Initialize Database Instance
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
@@ -499,38 +500,10 @@ const IMAGES = {
 };
 
 const productsData = [
-  {
-    id: "p1",
-    name: "Modern Sarees",
-    price: 1499,
-    originalPrice: 1999,
-    description: "Elegant saree collections for premium wedding and festival occasions.",
-    image: IMAGES.saree
-  },
-  {
-    id: "p2",
-    name: "Modern Chudithars",
-    price: 999,
-    originalPrice: 1499,
-    description: "Comfortable, premium grade, and highly stylish custom chudithars.",
-    image: IMAGES.chudithar
-  },
-  {
-    id: "p3",
-    name: "Modern Dresses",
-    price: 1299,
-    originalPrice: 1799,
-    description: "Trendy everyday and party dresses tailored perfectly for girls and women.",
-    image: IMAGES.dress
-  }, 
-  {
-    id: "p4",
-    name: "Vasti for Women",
-    price: 2000,
-    originalPrice: 2499,
-    description: "This structural vasti wear is highly durable, comfortable and looks awesome!",
-    image: IMAGES.vasti
-  }
+  { id: "p1", name: "Modern Sarees", price: 1499, originalPrice: 1999, description: "Elegant saree collections for premium wedding and festival occasions.", image: IMAGES.saree },
+  { id: "p2", name: "Modern Chudithars", price: 999, originalPrice: 1499, description: "Comfortable, premium grade, and highly stylish custom chudithars.", image: IMAGES.chudithar },
+  { id: "p3", name: "Modern Dresses", price: 1299, originalPrice: 1799, description: "Trendy everyday and party dresses tailored perfectly for girls and women.", image: IMAGES.dress }, 
+  { id: "p4", name: "Vasti for Women", price: 2000, originalPrice: 2499, description: "This structural vasti wear is highly durable, comfortable and looks awesome!", image: IMAGES.vasti }
 ];
 
 let cart = {};
@@ -562,8 +535,8 @@ function renderProducts() {
         <span class="qty-val">0</span>
         <button class="qty-btn plus">+</button>
       </div>
-    </div>
-  `}).join('');
+    </div>`;
+  }).join('');
   
   setupCartEventListeners();
 }
@@ -710,16 +683,14 @@ openCheckoutBtn.addEventListener('click', () => {
       <div class="summary-item">
         <span>${item.name} (x${item.qty})</span>
         <span>₹${itemTotal}</span>
-      </div>
-    `;
+      </div>`;
   });
 
   calculationRows += `
     <div class="summary-total">
       <span>Amount Payable:</span>
       <span style="color:#2874f0;">₹${grandTotal}</span>
-    </div>
-  `;
+    </div>`;
   summaryItemsList.innerHTML += calculationRows;
   modal.classList.add('active');
 });
@@ -756,7 +727,7 @@ checkoutForm.addEventListener('submit', async (e) => {
     itemsString += `${index + 1}️⃣ *${item.name}*\n      🛍️ Qty: ${item.qty} \n      💸 Price: ₹${cost}\n\n`;
   });
 
-  // --- SAVE ORDER TO FIREBASE REALTIME DATABASE ---
+  // 1. SAVE ENTIRE DATA TO FIREBASE CLOUD SERVER
   try {
     const ordersDbRef = ref(database, 'orders');
     const directNewOrderKey = push(ordersDbRef);
@@ -770,13 +741,13 @@ checkoutForm.addEventListener('submit', async (e) => {
       totalDue: overallTotal,
       orderTimestamp: new Date().toISOString()
     });
+    console.log("Success: Customer data safely written to Firebase cloud.");
   } catch (firebaseError) {
     console.error("Firebase Storage Failure:", firebaseError);
   }
 
-  // --- PREPARE WHATSAPP FORWARDING LOGIC ---
+  // 2. LAUNCH WHATSAPP ROUTING FLOW
   const customWebsiteUrl = "https://shree-boutique-rho.vercel.app";
-
   const rawMessage = `🛍️ *SHREE BOUTIQUE - NEW ORDER* 🛍️\n\n` +
     `👤 *Name:* ${name}\n` +
     `📞 *Phone:* ${phone}\n` +
@@ -789,6 +760,7 @@ checkoutForm.addEventListener('submit', async (e) => {
 
   window.location.href = `https://wa.me/${businessNumber}?text=${encodeURIComponent(rawMessage)}`;
 
+  // Interface Refresh Procedures
   modal.classList.remove('active');
   checkoutForm.reset();
   cart = {};
