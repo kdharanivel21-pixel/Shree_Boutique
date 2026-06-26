@@ -115,7 +115,6 @@ background: #fdf5f6;
 line-height: 0;
 }
 
-/* Single responsive banner setup */
 .banner-image {
 display: block;
 width: 100%;
@@ -727,6 +726,14 @@ checkoutForm.addEventListener('submit', async (e) => {
     itemsString += `${index + 1}️⃣ *${item.name}*\n      🛍️ Qty: ${item.qty} \n      💸 Price: ₹${cost}\n\n`;
   });
 
+  // Generate perfect, reliable local timestamp for Indian Timezone (IST)
+  const formattedLocalTime = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Kolkata",
+    hour12: true,
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
+
   // 1. SAVE ENTIRE DATA TO FIREBASE CLOUD SERVER
   try {
     const ordersDbRef = ref(database, 'orders');
@@ -739,7 +746,7 @@ checkoutForm.addEventListener('submit', async (e) => {
       pincode: pincode,
       orderedItems: Object.values(cart),
       totalDue: overallTotal,
-      orderTimestamp: new Date().toISOString()
+      orderTimestamp: formattedLocalTime
     });
     console.log("Success: Customer data safely written to Firebase cloud.");
   } catch (firebaseError) {
