@@ -473,7 +473,24 @@ Welcome to Shree Boutique. We specialize in modern sarees, stylish chudithars, p
 </div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDGXzFFfTcayU2L4aTC3XEfUEvl3RpaUe8",
+  authDomain: "shree-boutique-46f0a.firebaseapp.com",
+  databaseURL: "https://shree-boutique-46f0a-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "shree-boutique-46f0a",
+  storageBucket: "shree-boutique-46f0a.firebasestorage.app",
+  messagingSenderId: "693336656915",
+  appId: "1:693336656915:web:1e76956c03661687e443e6"
+};
+
+// Initialize Firebase Realtime Database
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
 const IMAGES = {
   saree: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
   chudithar: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=800&q=80",
@@ -709,7 +726,7 @@ openCheckoutBtn.addEventListener('click', () => {
 
 closeModalBtn.addEventListener('click', () => { modal.classList.remove('active'); });
 
-checkoutForm.addEventListener('submit', (e) => {
+checkoutForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const name = document.getElementById('custName').value.trim();
@@ -736,9 +753,28 @@ checkoutForm.addEventListener('submit', (e) => {
   Object.values(cart).forEach((item, index) => {
     const cost = item.price * item.qty;
     overallTotal += cost;
-    itemsString += `${index + 1}️⃣ *${item.name}*\n     🛍️ Qty: ${item.qty} \n     💸 Price: ₹${cost}\n\n`;
+    itemsString += `${index + 1}️⃣ *${item.name}*\n      🛍️ Qty: ${item.qty} \n      💸 Price: ₹${cost}\n\n`;
   });
 
+  // --- SAVE ORDER TO FIREBASE REALTIME DATABASE ---
+  try {
+    const ordersDbRef = ref(database, 'orders');
+    const directNewOrderKey = push(ordersDbRef);
+    
+    await set(directNewOrderKey, {
+      customerName: name,
+      mobileNumber: phone,
+      deliveryAddress: address,
+      pincode: pincode,
+      orderedItems: Object.values(cart),
+      totalDue: overallTotal,
+      orderTimestamp: new Date().toISOString()
+    });
+  } catch (firebaseError) {
+    console.error("Firebase Storage Failure:", firebaseError);
+  }
+
+  // --- PREPARE WHATSAPP FORWARDING LOGIC ---
   const customWebsiteUrl = "https://shree-boutique-rho.vercel.app";
 
   const rawMessage = `🛍️ *SHREE BOUTIQUE - NEW ORDER* 🛍️\n\n` +
